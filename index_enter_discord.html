@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="assets/css/starter.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css"
+    integrity="sha256-XoaMnoYC5TH6/+ihMEnospgm0J1PM/nioxbOUdnM8HY=" crossorigin="anonymous">
+  <title>Bootstrap npm starter</title>
+</head>
+
+<body>
+  <div id="bg"></div>
+  <div id="bg2"></div>
+  <div class="container h-100">
+    <div class="row row-center d-flex h-100">
+      <div class="col-4 col-center text-center">
+        <div id="flare" class="h-100 w-100"></div>
+
+        <button id="play-btn" class="btn btn-info">Enter</button>
+        <audio id="audio" src="assets/wav/who-disturbs-my-slumber.wav" autostart="0" autostart="false"></audio>
+        <a id="login" class="btn btn-dark"
+          href="https://discord.com/api/oauth2/authorize?client_id=959176510118453301&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&response_type=token&scope=identify%20guilds%20guilds.join"><i
+            class="fa fa-discord" aria-hidden="true"></i> Identify with Discord</a>
+        <form id="pass-form">
+          <div class="form-group">
+            <input type="password" class="form-control" id="input-pass" placeholder="Password">
+          </div>
+          <button id="btn-submit" class="btn btn-primary">Let Me In</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+  <script src="node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+  <script type="module" src="assets/js/starter.js"></script>
+</body>
+
+</html>
