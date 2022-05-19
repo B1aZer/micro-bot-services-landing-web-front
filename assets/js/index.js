@@ -8,15 +8,16 @@
 //
 // Import Bootstrap's bundle (all of Bootstrap's JS + Popper.js dependency)
 
-// import "../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
+import "../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
 
 
 // Option 2
 //
 // Import just what we need
-
+//TODO:
 // If you're importing tooltips or popovers, be sure to include our Popper.js dependency
-// import "../../node_modules/popper.js/dist/popper.min.js";
+//import "../../node_modules/popper.js/dist/popper.min.js";
+//import "../../node_modules/bootstrap/js/dist/toast.js";
 
 import App from "./paymentProcessor.js";
 import EventEmitter from "./eventEmitter.js";

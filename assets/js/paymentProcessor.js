@@ -1,5 +1,6 @@
 const coinPrice = 0.00033;
-const contractAddress = '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0';
+const contractAddress = '0xD604a01d4a1e41c24299d47CA767e07429000FfA';
+const chainId = 4;
 const abi = [
     {
         "inputs": [],
@@ -158,6 +159,11 @@ export default class App {
         this.ee.on('step2', function () {
             $('.step2').show().addClass('fadeIn');
         });
+        this.ee.on('chainId', function (chainIdReceived) {
+            if (chainIdReceived !== chainId) {
+                $('.toast').toast({ autohide: false }).toast('show')
+            }
+        });
     }
     discordOauth() {
         const fragment = new URLSearchParams(window.location.hash.slice(1));
@@ -184,6 +190,8 @@ export default class App {
     async ethAuth() {
         await this.provider.send("eth_requestAccounts", []);
         this.signer = this.provider.getSigner();
+        const network = await this.provider.getNetwork();
+        this.ee.emit('chainId', network.chainId);
     }
     async sendTx(ethFormattedValue) {
         // Get the balance of an account (by address or ENS name, if supported by network)

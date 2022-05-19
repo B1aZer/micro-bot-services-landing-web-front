@@ -7,7 +7,7 @@
   <link rel="icon" type="image/x-icon" href="assets/img/logo.png">
   <link rel="stylesheet" href="assets/css/starter.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css"
-  integrity="sha256-XoaMnoYC5TH6/+ihMEnospgm0J1PM/nioxbOUdnM8HY=" crossorigin="anonymous">
+    integrity="sha256-XoaMnoYC5TH6/+ihMEnospgm0J1PM/nioxbOUdnM8HY=" crossorigin="anonymous">
   <title>GooDee Payment Processor</title>
 </head>
 
@@ -19,22 +19,36 @@
       <p class="lead">Choose desired number of coins and pay with Ethereum.<br />
         After transaction is complete they will be transferred to your discord account.</p>
     </div>
+    <div class="row justify-content-center mb-4">
+      <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <strong class="mr-auto">Warning</strong>
+          <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="toast-body" style="color: #15202B">
+          You are connected to unsupported network. <br/> Please connect to "rinkeby" in MetaMask and reload this page.
+        </div>
+      </div>
+    </div>
     <div class="row justify-content-center step1" style="display: none">
       <div class="col-md-8 col-sm-12 text-center">
         <a id="login" class="btn btn-light btn-lg"
-        href="https://discord.com/api/oauth2/authorize?client_id=959176510118453301&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&response_type=token&scope=identify%20guilds"><i
-          class="fa fa-discord" aria-hidden="true"></i> Identify with Discord</a>
+          href="https://discord.com/api/oauth2/authorize?client_id=959176510118453301&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&response_type=token&scope=identify%20guilds"><i
+            class="fa fa-discord" aria-hidden="true"></i> Identify with Discord</a>
       </div>
 
     </div>
- 
+
     <div class="row justify-content-center step2" style="display: none">
       <div class="col-md-8 col-sm-12">
         <form class="needs-validation" novalidate>
           <div class="form-group mb-5">
             <label for="formControlRange" class="float-left">100</label>
             <label for="formControlRange" class="float-right">10000</label>
-            <input type="range" class="form-control-range" id="formControlRange" min="100" max="10000" step="100" value="100">
+            <input type="range" class="form-control-range" id="formControlRange" min="100" max="10000" step="100"
+              value="100">
           </div>
 
           <div class="form-group row mb-4">
@@ -74,7 +88,8 @@
 
   </div>
 
-  <script src="node_modules/jquery/dist/jquery.slim.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+        integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
   <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
   <script type="module" src="assets/js/index.js"></script>
 
