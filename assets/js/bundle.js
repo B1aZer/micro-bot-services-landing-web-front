@@ -7,6 +7,7 @@
 
 const coinPrice = 0.00033;
 const contractAddress = '0xD604a01d4a1e41c24299d47CA767e07429000FfA';
+const chainId = 4;
 const abi = [
     {
         "inputs": [],
@@ -165,9 +166,9 @@ class App {
         this.ee.on('step2', function () {
             $('.step2').show().addClass('fadeIn');
         });
-        this.ee.on('chainId', function (chainId) {
-            if (chainId !== 4) {
-                //$('.step2').show().addClass('fadeIn');
+        this.ee.on('chainId', function (chainIdReceived) {
+            if (chainIdReceived !== chainId) {
+                $('.chainId').show();
                 $('.toast').toast({ autohide: false }).toast('show');
             }
         });

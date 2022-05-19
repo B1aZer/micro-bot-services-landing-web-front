@@ -110,6 +110,7 @@ export default class App {
     constructor(ee) {
         this.ee = ee;
         this.discordID = null;
+        this.paused = false;
         //eth
         this.provider = new ethers.providers.Web3Provider(window.ethereum);
         this.signer = null;
@@ -139,11 +140,12 @@ export default class App {
             setTimeout(function cb() {
                 const ethVal = $('#inputEthereum').val();
                 const ethFormattedValue = ethers.utils.parseEther(ethVal);
-                self.sendTx(ethFormattedValue);
+                !self.paused && self.sendTx(ethFormattedValue);
             });
         })
     }
     bindCustomEvents() {
+        var self = this;
         this.ee.on('changed', function (valInput) {
             let val = valInput;
             if (!val || isNaN(val) || val < 100) val = 100;
@@ -161,7 +163,10 @@ export default class App {
         });
         this.ee.on('chainId', function (chainIdReceived) {
             if (chainIdReceived !== chainId) {
-                $('.toast').toast({ autohide: false }).toast('show')
+                $('.chainId').show();
+                $('.toast').toast({ autohide: false }).toast('show');
+                self.paused = true;
+                $('#submitBtn').prop( "disabled", true );
             }
         });
     }
