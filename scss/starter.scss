@@ -84,3 +84,21 @@ $success: #7952b3;
 .form-control-range {
   cursor: pointer;
 }
+.step2 {
+  opacity: 0;
+}
+.fadeIn {
+  animation: fadeInAnimation 1s;
+  opacity: 1;
+}
+
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+    transform: translateY(10%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

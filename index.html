@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="assets/img/logo.png">
   <link rel="stylesheet" href="assets/css/starter.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css"
+  integrity="sha256-XoaMnoYC5TH6/+ihMEnospgm0J1PM/nioxbOUdnM8HY=" crossorigin="anonymous">
   <title>GooDee Payment Processor</title>
 </head>
 
@@ -17,7 +19,16 @@
       <p class="lead">Choose desired number of coins and pay with Ethereum.<br />
         After transaction is complete they will be transferred to your discord account.</p>
     </div>
-    <div class="row justify-content-center">
+    <div class="row justify-content-center step1" style="display: none">
+      <div class="col-md-8 col-sm-12 text-center">
+        <a id="login" class="btn btn-light btn-lg"
+        href="https://discord.com/api/oauth2/authorize?client_id=959176510118453301&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&response_type=token&scope=identify%20guilds"><i
+          class="fa fa-discord" aria-hidden="true"></i> Identify with Discord</a>
+      </div>
+
+    </div>
+ 
+    <div class="row justify-content-center step2" style="display: none">
       <div class="col-md-8 col-sm-12">
         <form class="needs-validation" novalidate>
           <div class="form-group mb-5">
@@ -56,7 +67,7 @@
               </div>
             </div>
           </div>
-          <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+          <button id="submitBtn" class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
         </form>
       </div>
     </div>
@@ -64,6 +75,7 @@
   </div>
 
   <script src="node_modules/jquery/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
   <script type="module" src="assets/js/index.js"></script>
 
 </body>
