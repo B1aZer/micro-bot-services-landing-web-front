@@ -112,8 +112,9 @@ export default class App {
         this.discordID = null;
         this.paused = false;
         //eth
-        this.provider = new ethers.providers.Web3Provider(window.ethereum);
+        this.provider = null;
         this.signer = null;
+        //startup
         this.bindCustomEvents();
         this.bindEvents();
         this.discordOauth();
@@ -164,10 +165,20 @@ export default class App {
         this.ee.on('chainId', function (chainIdReceived) {
             if (chainIdReceived !== chainId) {
                 $('.chainId').show();
-                $('.toast').toast({ autohide: false }).toast('show');
+                $('.chainId .toast').toast({ autohide: false }).toast('show');
                 self.paused = true;
-                $('#submitBtn').prop( "disabled", true );
+                $('#submitBtn').prop("disabled", true);
             }
+        });
+        this.ee.on('nometa', function (chainIdReceived) {
+            $('.meta').show();
+            $('.meta .toast').toast({ autohide: false }).toast('show');
+            self.paused = true;
+            $('#submitBtn').prop("disabled", true);
+        });
+        this.ee.on('lowgas', function (chainIdReceived) {
+            $('.lowgas').show();
+            $('.lowgas .toast').toast({ autohide: false }).toast('show');
         });
     }
     discordOauth() {
@@ -193,7 +204,25 @@ export default class App {
             .catch(console.error);
     }
     async ethAuth() {
-        await this.provider.send("eth_requestAccounts", []);
+        try {
+            this.provider = new ethers.providers.Web3Provider(window.ethereum);
+        } catch (err) {
+            this.paused = true;
+            this.ee.emit('nometa', true);
+            return;
+        }
+        try {
+            const accounts = await this.provider.send("eth_requestAccounts", []);
+            if (!accounts?.length) {
+                this.paused = true;
+                this.ee.emit('nometa', true);
+                return;
+            }
+        } catch (err) {
+            this.paused = true;
+            this.ee.emit('nometa', true);
+            return;
+        }
         this.signer = this.provider.getSigner();
         const network = await this.provider.getNetwork();
         this.ee.emit('chainId', network.chainId);
@@ -224,7 +253,22 @@ export default class App {
         });
         */
 
-        //let tx = myContractWithSigner.mint(this.discordID, { value: eth1 });
+        // Checking balance
+        try {
+            const balance = await this.provider.getBalance(await this.signer.getAddress());
+            //console.log(ethers.utils.formatEther(balance));
+            const estimatedGas = await myContractWithSigner.estimateGas.mint(this.discordID, { value: ethFormattedValue });
+            //console.log(ethers.utils.formatEther(estimatedGas));
+            //console.log(ethers.utils.formatEther(ethFormattedValue.add(estimatedGas)));
+            if (balance.lt(ethFormattedValue.add(estimatedGas))) {
+                this.ee.emit('lowgas', true);
+                return;
+            }
+        } catch (err) {
+            this.ee.emit('lowgas', true);
+            return;
+        }
+
         let tx = await myContractWithSigner.mint(this.discordID, { value: ethFormattedValue });
         console.log(tx);
     }
