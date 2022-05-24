@@ -1,6 +1,6 @@
 const coinPrice = 0.00033;
-const contractAddress = '0xD604a01d4a1e41c24299d47CA767e07429000FfA';
-const chainId = 4;
+const contractAddress = '0xaA321A715e08eF44EeE8CadB1282688D9dc683cf';
+const chainId = 1;
 const abi = [
     {
         "inputs": [],
