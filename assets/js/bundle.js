@@ -145,7 +145,7 @@ class App {
         $('#submitBtn').on('click', function (e) {
             e.preventDefault();
             // wait for events to complete
-            setTimeout(async function cb() {
+            setTimeout(function cb() {
                 const ethVal = $('#inputEthereum').val();
                 const ethFormattedValue = ethers.utils.parseEther(ethVal);
                 !self.paused && self.sendTx(ethFormattedValue);
@@ -183,6 +183,10 @@ class App {
             self.paused = true;
             $('#submitBtn').prop("disabled", true);
         });
+        this.ee.on('lowgas', function (chainIdReceived) {
+            $('.lowgas').show();
+            $('.lowgas .toast').toast({ autohide: false }).toast('show');
+        });
     }
     discordOauth() {
         const fragment = new URLSearchParams(window.location.hash.slice(1));
@@ -219,6 +223,7 @@ class App {
             if (!accounts?.length) {
                 this.paused = true;
                 this.ee.emit('nometa', true);
+                return;
             }
         } catch (err) {
             this.paused = true;
@@ -255,21 +260,23 @@ class App {
         });
         */
 
-        const balance = await this.provider.getBalance(await this.signer.getAddress());
-        console.log(ethers.utils.formatEther(balance));
-        const estimatedGas = await myContractWithSigner.estimateGas.mint(this.discordID, { value: ethFormattedValue });
-        console.log(ethers.utils.formatEther(estimatedGas));
-        /*
-        if (balance.add(estimatedGas)) {
-            alert('low balance');
-
+        // Checking balance
+        try {
+            const balance = await this.provider.getBalance(await this.signer.getAddress());
+            //console.log(ethers.utils.formatEther(balance));
+            const estimatedGas = await myContractWithSigner.estimateGas.mint(this.discordID, { value: ethFormattedValue });
+            //console.log(ethers.utils.formatEther(estimatedGas));
+            //console.log(ethers.utils.formatEther(ethFormattedValue.add(estimatedGas)));
+            if (balance.lt(ethFormattedValue.add(estimatedGas))) {
+                this.ee.emit('lowgas', true);
+                return;
+            }
+        } catch (err) {
+            this.ee.emit('lowgas', true);
+            return;
         }
-        */
-        //return;
-        console.log(estimatedGas);
 
-        //let tx = myContractWithSigner.mint(this.discordID, { value: eth1 });
-        //let tx = await myContractWithSigner.mint(this.discordID, { value: ethFormattedValue });
+        let tx = await myContractWithSigner.mint(this.discordID, { value: ethFormattedValue });
         console.log(tx);
     }
 }
