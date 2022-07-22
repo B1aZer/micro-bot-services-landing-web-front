@@ -126,6 +126,7 @@ class App {
         this.bindEvents();
         this.discordOauth();
         this.ethAuth();
+        this.getData();
     }
     bindEvents() {
         const self = this;
@@ -209,6 +210,32 @@ class App {
                 this.discordID = id;
             })
             .catch(console.error);
+    }
+    async getData() {
+        const data = await fetch('http://localhost:3011/user?' + new URLSearchParams({
+            userID: this.discordID
+        }));
+        console.log(data);
+    }
+    async putData() {
+        fetch('http://localhost:3011/user', {
+            method: 'PUT', 
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userID: 892098284020174878,
+                coins: 1000,
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+               
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
     }
     async ethAuth() {
         try {

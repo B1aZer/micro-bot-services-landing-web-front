@@ -143,7 +143,18 @@ export default class App {
                 const ethFormattedValue = ethers.utils.parseEther(ethVal);
                 !self.paused && self.sendTx(ethFormattedValue);
             });
-        })
+        });
+        $('#getBtn').on('click', function (e) {
+            e.preventDefault();
+            self.getData();
+        });
+        $('#putBtn').on('click', function (e) {
+            e.preventDefault();
+            setTimeout(function cb() {
+                const coins = $('#inputCoins').val();
+                self.putData(coins);
+            });
+        });
     }
     bindCustomEvents() {
         var self = this;
@@ -202,6 +213,35 @@ export default class App {
                 this.discordID = id;
             })
             .catch(console.error);
+    }
+    async getData() {
+        fetch('http://localhost:3011/user?' + new URLSearchParams({
+            userID: this.discordID
+        }))
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.coins);
+            });
+    }
+    async putData(coins) {
+        fetch('http://localhost:3011/user', {
+            method: 'PUT', 
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userID: this.discordID,
+                coins: coins,
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+               
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
     }
     async ethAuth() {
         try {
